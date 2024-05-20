@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="icon" href="/static/code.svg" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container_admin">
+        <h1>Admin Dashboard</h1>
+        <ul>
+            {% for question in questions %}
+            <li>
+                Question: {{ question.question_text }}
+                <br>
+                IP Address: {{ question.ip }}
+                <br>
+                Timestamp: {{ question.time_stamp }}
+                <br>
+                <div id="location_{{ question.id }}"></div>
+                <a href="{{ url_for('chat', question_id=question.id) }}?admin=true">Chat</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        {% for question in questions %}
+        fetch('https://ipapi.co/{{ question.ip }}/json/')
+            .then(response => response.json())
+            .then(data => {
+                const locationDiv = document.getElementById('location_{{ question.id }}');
+                locationDiv.innerHTML = `Location: ${data.city}, ${data.region}, ${data.country}`;
+            })
+            .catch(error => console.error('Error fetching location:', error));
+        {% endfor %}
+    </script>
+</body>
+</html>

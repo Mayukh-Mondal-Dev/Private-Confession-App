@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #bb86fc;
+}
+
+input, textarea {
+    resize: vertical;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: #e0e0e0;
+    transition: border-color 0.2s;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensures padding is included in the total width */
+}
+
+input:focus, textarea:focus {
+    border-color: #bb86fc;
+}
+
+button {
+    padding: 10px;
+    background-color: #bb86fc;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, transform 0.2s;
+    font-family: 'Source Code Pro', monospace;
+}
+
+button:hover {
+    background-color: #a06cd5;
+}
+
+a {
+    color: #bb86fc;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-family: 'Source Code Pro', monospace;
+}
+
+a:hover {
+    color: #a06cd5;
+}
+
+#messages {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #333;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #1f1f1f;
+}
+
+#messages p {
+    padding: 10px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#messages p strong {
+    display: block;
+    color: #bb86fc;
+}
+
+#messages p em {
+    display: block;
+    font-size: 0.8em;
+    color: #757575;
+    margin-top: 5px;
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#message {
+    flex: 1;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px 5px 5px 5px;
+    color: #e0e0e0;
+    font-family: 'Source Code Pro', monospace;
+}
+
+#chat-form button {
+    border-radius: 5px 5px 5px 5px;
+    margin-left: -1px; /* To avoid double border */
+}
+
+a.morelink {
+	text-decoration:none;
+	outline: none;
+}
+.morecontent span {
+	display: none;
+
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    body {
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: auto;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: none;
+        transform: none;
+    }
+
+    #messages {
+        max-height: 300px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

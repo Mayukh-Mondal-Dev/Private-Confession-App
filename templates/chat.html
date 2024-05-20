@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/code.svg" sizes="any" type="image/svg+xml">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+</head>
+
+<body>
+    <div class="container">
+        <h1 align="center">Chat Room</h1>
+        <p class="more" style="font-size: 16px;">{{ question }}</p>
+        <div id="messages">
+            {% for message in messages %}
+            <p>
+                <strong>{{ message.username }}:</strong>
+                {{ message.message }}
+                <em>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</em>
+            </p>
+            {% endfor %}
+        </div>
+        <form id="chat-form">
+            <input id="message" autocomplete="off" placeholder="Type your message here..." />
+            <button>Send</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+        var question_id = "{{ question_id }}";
+        var username = "{{ 'Mayukh' if is_admin else 'Anonymous' }}";
+        var adminStatus = "{{ 'true' if is_admin else 'false' }}";
+
+        document.getElementById('chat-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var messageInput = document.getElementById('message');
+            if (messageInput.value.trim()) {
+                socket.emit('message', { question_id: question_id, username: username, message: messageInput.value });
+                messageInput.value = '';
+            }
+        });
+
+        socket.emit('join', { question_id: question_id, username: username });
+
+        socket.on('message', function (data) {
+            var messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += '<p><strong>' + data.username + ':</strong> ' + data.msg + ' <em>' + data.timestamp + '</em></p>';
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+
+        socket.on('admin_status', function (data) {
+            if (data.admin_joined && !adminStatus) {
+                document.getElementById('message').disabled = false;
+                document.getElementById('message').placeholder = "Type your message here...";
+            } else if (!data.admin_joined) {
+                document.getElementById('message').disabled = true;
+                document.getElementById('message').placeholder = "Waiting for admin to join...";
+            }
+        });
+
+        window.addEventListener('beforeunload', function () {
+            socket.emit('leave', { question_id: question_id, username: username });
+        });
+
+        if (!adminStatus) {
+            document.getElementById('message').disabled = true;
+            document.getElementById('message').placeholder = "Waiting for admin to join...";
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var showWords = 10;
+            var ellipsestext = "...";
+            var moretext = "more";
+            var lesstext = "less";
+
+            $('.more').each(function () {
+                var content = $(this).html();
+                var words = content.split(' ');
+
+                if (words.length > showWords) {
+                    var visibleWords = words.slice(0, showWords).join(' ');
+                    var hiddenWords = words.slice(showWords).join(' ');
+
+                    var html = visibleWords + '<span class="moreellipses">' + ellipsestext + '</span>&nbsp;<span class="morecontent"><span>' + $('<div/>').text(hiddenWords).html() + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+                    $(this).html(html);
+                }
+            });
+
+            $(".morelink").click(function () {
+                if ($(this).hasClass("less")) {
+                    $(this).removeClass("less");
+                    $(this).html(moretext);
+                } else {
+                    $(this).addClass("less");
+                    $(this).html(lesstext);
+                }
+                $(this).parent().prev().toggle();
+                $(this).prev().toggle();
+                return false;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

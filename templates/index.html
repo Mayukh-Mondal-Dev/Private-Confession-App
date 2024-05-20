@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquiry</title>
+    <link rel="icon" href="/static/code.svg" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Write Your Question or Confession</h1>
+        <form method="post" action="/submit_question">
+            <textarea name="question" id="question" placeholder="Type your question here..." rows="4" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>
