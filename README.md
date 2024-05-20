@@ -27,7 +27,7 @@ This application is intended for educational and experimental purposes only. It 
 2. Create a virtual environment and activate it:
     ```bash
     python -m venv env
-    source env/bin/activate   # On Windows use `venv\Scripts\activate`
+    source env/bin/activate   # On Windows use `env\Scripts\activate`
     ```
 
 3. Install the required dependencies:
